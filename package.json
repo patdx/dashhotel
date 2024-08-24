@@ -1,0 +1,59 @@
+{
+	"name": "patdx-remix-template",
+	"private": true,
+	"sideEffects": false,
+	"type": "module",
+	"scripts": {
+		"build": "remix vite:build",
+		"deploy": "wrangler pages deploy",
+		"dev": "remix vite:dev",
+		"start": "wrangler pages dev",
+		"typecheck": "tsc",
+		"typegen": "wrangler types",
+		"update-react": "pnpm install --save-exact react@rc react-dom@rc",
+		"lint": "biome lint",
+		"lint:fix": "biome lint --fix",
+		"format": "biome format --write"
+	},
+	"dependencies": {
+		"@libsql/client": "0.9.0",
+		"@opentelemetry/otlp-transformer": "0.52.1",
+		"@paralleldrive/cuid2": "2.2.2",
+		"@remix-run/node": "2.11.2",
+		"@remix-run/react": "2.11.2",
+		"@remix-run/serve": "2.11.2",
+		"@types/lodash-es": "4.17.12",
+		"clsx": "2.1.1",
+		"hono": "4.5.8",
+		"isbot": "5.1.17",
+		"lodash-es": "4.17.21",
+		"react": "19.0.0-rc-8269d55d-20240802",
+		"react-dom": "19.0.0-rc-8269d55d-20240802"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.8.3",
+		"@cloudflare/workers-types": "4.20240821.1",
+		"@remix-run/dev": "2.11.2",
+		"@types/react": "npm:types-react@rc",
+		"@types/react-dom": "npm:types-react-dom@rc",
+		"autoprefixer": "10.4.20",
+		"postcss": "8.4.41",
+		"tailwindcss": "3.4.10",
+		"typescript": "5.5.4",
+		"unplugin-auto-import": "0.18.2",
+		"vite": "5.4.2",
+		"vite-tsconfig-paths": "5.0.1",
+		"wrangler": "3.72.2"
+	},
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [],
+		"overrides": {
+			"@types/react": "$@types/react",
+			"@types/react-dom": "$@types/react-dom"
+		}
+	},
+	"packageManager": "pnpm@9.8.0+sha512.8e4c3550fb500e808dbc30bb0ce4dd1eb614e30b1c55245f211591ec2cdf9c611cabd34e1364b42f564bd54b3945ed0f49d61d1bbf2ec9bd74b866fcdc723276"
+}

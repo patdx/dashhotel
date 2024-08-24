@@ -1,0 +1,293 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "browser.mobile",
+            "value": {
+              "boolValue": false
+            }
+          },
+          {
+            "key": "browser.user_agent",
+            "value": {
+              "stringValue": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+            }
+          },
+          {
+            "key": "browser.language",
+            "value": {
+              "stringValue": "en-US"
+            }
+          },
+          {
+            "key": "browser.brands",
+            "value": {
+              "arrayValue": {
+                "values": [
+                  {
+                    "kvlistValue": {
+                      "values": [
+                        {
+                          "key": "brand",
+                          "value": {
+                            "stringValue": "Not)A;Brand"
+                          }
+                        },
+                        {
+                          "key": "version",
+                          "value": {
+                            "stringValue": "99"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "kvlistValue": {
+                      "values": [
+                        {
+                          "key": "brand",
+                          "value": {
+                            "stringValue": "Google Chrome"
+                          }
+                        },
+                        {
+                          "key": "version",
+                          "value": {
+                            "stringValue": "127"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "kvlistValue": {
+                      "values": [
+                        {
+                          "key": "brand",
+                          "value": {
+                            "stringValue": "Chromium"
+                          }
+                        },
+                        {
+                          "key": "version",
+                          "value": {
+                            "stringValue": "127"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "key": "browser.os",
+            "value": {
+              "stringValue": "Linux x86_64"
+            }
+          },
+          {
+            "key": "browser.name",
+            "value": {
+              "stringValue": "Chrome"
+            }
+          },
+          {
+            "key": "browser.version",
+            "value": {
+              "stringValue": "127.0.0.0"
+            }
+          },
+          {
+            "key": "browser.screen_width",
+            "value": {
+              "stringValue": "1717"
+            }
+          },
+          {
+            "key": "browser.screen_height",
+            "value": {
+              "stringValue": "797"
+            }
+          },
+          {
+            "key": "telemetry.sdk.version",
+            "value": {
+              "stringValue": "1.9.0"
+            }
+          },
+          {
+            "key": "telemetry.sdk.language",
+            "value": {
+              "stringValue": "webjs"
+            }
+          },
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "my-angular-app"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "@opentelemetry/instrumentation-fetch",
+            "version": "0.52.1"
+          },
+          "spans": [
+            {
+              "traceId": "990a2d9311305a0cfdbd74203c7c09f1",
+              "spanId": "11b9db55208ff472",
+              "name": "HTTP POST",
+              "kind": 3,
+              "startTimeUnixNano": "1724425778087000000",
+              "endTimeUnixNano": "1724425778122000000",
+              "attributes": [
+                {
+                  "key": "component",
+                  "value": {
+                    "stringValue": "fetch"
+                  }
+                },
+                {
+                  "key": "http.method",
+                  "value": {
+                    "stringValue": "POST"
+                  }
+                },
+                {
+                  "key": "http.url",
+                  "value": {
+                    "stringValue": "http://localhost:5173/v1/logs"
+                  }
+                },
+                {
+                  "key": "session_id",
+                  "value": {
+                    "stringValue": "8Bwob8D01z"
+                  }
+                },
+                {
+                  "key": "http.status_code",
+                  "value": {
+                    "intValue": 200
+                  }
+                },
+                {
+                  "key": "http.status_text",
+                  "value": {
+                    "stringValue": "OK"
+                  }
+                },
+                {
+                  "key": "http.host",
+                  "value": {
+                    "stringValue": "localhost:5173"
+                  }
+                },
+                {
+                  "key": "http.scheme",
+                  "value": {
+                    "stringValue": "http"
+                  }
+                },
+                {
+                  "key": "http.user_agent",
+                  "value": {
+                    "stringValue": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+                  }
+                }
+              ],
+              "droppedAttributesCount": 0,
+              "events": [],
+              "droppedEventsCount": 0,
+              "status": {
+                "code": 0
+              },
+              "links": [],
+              "droppedLinksCount": 0
+            },
+            {
+              "traceId": "eee4c022d7c9491c0d0c018f586a2efa",
+              "spanId": "03688a8c0d3f8014",
+              "name": "HTTP POST",
+              "kind": 3,
+              "startTimeUnixNano": "1724425778089000000",
+              "endTimeUnixNano": "1724425778128000000",
+              "attributes": [
+                {
+                  "key": "component",
+                  "value": {
+                    "stringValue": "fetch"
+                  }
+                },
+                {
+                  "key": "http.method",
+                  "value": {
+                    "stringValue": "POST"
+                  }
+                },
+                {
+                  "key": "http.url",
+                  "value": {
+                    "stringValue": "http://localhost:5173/v1/traces"
+                  }
+                },
+                {
+                  "key": "session_id",
+                  "value": {
+                    "stringValue": "8Bwob8D01z"
+                  }
+                },
+                {
+                  "key": "http.status_code",
+                  "value": {
+                    "intValue": 200
+                  }
+                },
+                {
+                  "key": "http.status_text",
+                  "value": {
+                    "stringValue": "OK"
+                  }
+                },
+                {
+                  "key": "http.host",
+                  "value": {
+                    "stringValue": "localhost:5173"
+                  }
+                },
+                {
+                  "key": "http.scheme",
+                  "value": {
+                    "stringValue": "http"
+                  }
+                },
+                {
+                  "key": "http.user_agent",
+                  "value": {
+                    "stringValue": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+                  }
+                }
+              ],
+              "droppedAttributesCount": 0,
+              "events": [],
+              "droppedEventsCount": 0,
+              "status": {
+                "code": 0
+              },
+              "links": [],
+              "droppedLinksCount": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

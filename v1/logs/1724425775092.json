@@ -1,0 +1,355 @@
+{
+  "resourceLogs": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "browser.mobile",
+            "value": {
+              "boolValue": false
+            }
+          },
+          {
+            "key": "browser.user_agent",
+            "value": {
+              "stringValue": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+            }
+          },
+          {
+            "key": "browser.language",
+            "value": {
+              "stringValue": "en-US"
+            }
+          },
+          {
+            "key": "browser.brands",
+            "value": {
+              "arrayValue": {
+                "values": [
+                  {
+                    "kvlistValue": {
+                      "values": [
+                        {
+                          "key": "brand",
+                          "value": {
+                            "stringValue": "Not)A;Brand"
+                          }
+                        },
+                        {
+                          "key": "version",
+                          "value": {
+                            "stringValue": "99"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "kvlistValue": {
+                      "values": [
+                        {
+                          "key": "brand",
+                          "value": {
+                            "stringValue": "Google Chrome"
+                          }
+                        },
+                        {
+                          "key": "version",
+                          "value": {
+                            "stringValue": "127"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "kvlistValue": {
+                      "values": [
+                        {
+                          "key": "brand",
+                          "value": {
+                            "stringValue": "Chromium"
+                          }
+                        },
+                        {
+                          "key": "version",
+                          "value": {
+                            "stringValue": "127"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "key": "browser.os",
+            "value": {
+              "stringValue": "Linux x86_64"
+            }
+          },
+          {
+            "key": "browser.name",
+            "value": {
+              "stringValue": "Chrome"
+            }
+          },
+          {
+            "key": "browser.version",
+            "value": {
+              "stringValue": "127.0.0.0"
+            }
+          },
+          {
+            "key": "browser.screen_width",
+            "value": {
+              "stringValue": "1717"
+            }
+          },
+          {
+            "key": "browser.screen_height",
+            "value": {
+              "stringValue": "797"
+            }
+          },
+          {
+            "key": "telemetry.sdk.version",
+            "value": {
+              "stringValue": "1.9.0"
+            }
+          },
+          {
+            "key": "telemetry.sdk.language",
+            "value": {
+              "stringValue": "webjs"
+            }
+          },
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "my-angular-app"
+            }
+          }
+        ]
+      },
+      "scopeLogs": [
+        {
+          "scope": {
+            "name": "@grafana/faro-web-sdk",
+            "version": "1.9.0"
+          },
+          "logRecords": [
+            {
+              "timeUnixNano": 1724425775085000000,
+              "body": {
+                "stringValue": "faro.tracing.fetch"
+              },
+              "attributes": [
+                {
+                  "key": "view.name",
+                  "value": {
+                    "stringValue": "default"
+                  }
+                },
+                {
+                  "key": "http.url",
+                  "value": {
+                    "stringValue": "http://localhost:4200/"
+                  }
+                },
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "8Bwob8D01z"
+                  }
+                },
+                {
+                  "key": "event.name",
+                  "value": {
+                    "stringValue": "faro.tracing.fetch"
+                  }
+                },
+                {
+                  "key": "event.domain",
+                  "value": {
+                    "stringValue": "browser"
+                  }
+                },
+                {
+                  "key": "event.attributes",
+                  "value": {
+                    "kvlistValue": {
+                      "values": [
+                        {
+                          "key": "component",
+                          "value": {
+                            "stringValue": "fetch"
+                          }
+                        },
+                        {
+                          "key": "http.method",
+                          "value": {
+                            "stringValue": "POST"
+                          }
+                        },
+                        {
+                          "key": "http.url",
+                          "value": {
+                            "stringValue": "http://localhost:5173/v1/logs"
+                          }
+                        },
+                        {
+                          "key": "session_id",
+                          "value": {
+                            "stringValue": "8Bwob8D01z"
+                          }
+                        },
+                        {
+                          "key": "http.status_code",
+                          "value": {
+                            "stringValue": "200"
+                          }
+                        },
+                        {
+                          "key": "http.status_text",
+                          "value": {
+                            "stringValue": "OK"
+                          }
+                        },
+                        {
+                          "key": "http.host",
+                          "value": {
+                            "stringValue": "localhost:5173"
+                          }
+                        },
+                        {
+                          "key": "http.scheme",
+                          "value": {
+                            "stringValue": "http"
+                          }
+                        },
+                        {
+                          "key": "http.user_agent",
+                          "value": {
+                            "stringValue": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "traceId": "088c51c354cb80268825e2ad6cfd0e07",
+              "spanId": "2d52d288acd26947"
+            },
+            {
+              "timeUnixNano": 1724425775086000000,
+              "body": {
+                "stringValue": "faro.tracing.fetch"
+              },
+              "attributes": [
+                {
+                  "key": "view.name",
+                  "value": {
+                    "stringValue": "default"
+                  }
+                },
+                {
+                  "key": "http.url",
+                  "value": {
+                    "stringValue": "http://localhost:4200/"
+                  }
+                },
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "8Bwob8D01z"
+                  }
+                },
+                {
+                  "key": "event.name",
+                  "value": {
+                    "stringValue": "faro.tracing.fetch"
+                  }
+                },
+                {
+                  "key": "event.domain",
+                  "value": {
+                    "stringValue": "browser"
+                  }
+                },
+                {
+                  "key": "event.attributes",
+                  "value": {
+                    "kvlistValue": {
+                      "values": [
+                        {
+                          "key": "component",
+                          "value": {
+                            "stringValue": "fetch"
+                          }
+                        },
+                        {
+                          "key": "http.method",
+                          "value": {
+                            "stringValue": "POST"
+                          }
+                        },
+                        {
+                          "key": "http.url",
+                          "value": {
+                            "stringValue": "http://localhost:5173/v1/traces"
+                          }
+                        },
+                        {
+                          "key": "session_id",
+                          "value": {
+                            "stringValue": "8Bwob8D01z"
+                          }
+                        },
+                        {
+                          "key": "http.status_code",
+                          "value": {
+                            "stringValue": "200"
+                          }
+                        },
+                        {
+                          "key": "http.status_text",
+                          "value": {
+                            "stringValue": "OK"
+                          }
+                        },
+                        {
+                          "key": "http.host",
+                          "value": {
+                            "stringValue": "localhost:5173"
+                          }
+                        },
+                        {
+                          "key": "http.scheme",
+                          "value": {
+                            "stringValue": "http"
+                          }
+                        },
+                        {
+                          "key": "http.user_agent",
+                          "value": {
+                            "stringValue": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "traceId": "bcb1b6f492805e7216b358ca15462b0f",
+              "spanId": "64933dad2eb9cc43"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
