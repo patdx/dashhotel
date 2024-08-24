@@ -2,8 +2,9 @@ import type * as OT from '@opentelemetry/otlp-transformer';
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { Link, json, redirect, useLoaderData } from '@remix-run/react';
 import clsx from 'clsx';
+import { desc, eq } from 'drizzle-orm';
 import { Fragment } from 'react/jsx-runtime';
-import { db } from '~/.server/db';
+import { getDb, schema } from '~/.server/db';
 
 function flattenValue(value?: OT.IAnyValue | OT.IKeyValue[] | null): any {
 	if (!value) {
@@ -48,49 +49,56 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader(args: LoaderFunctionArgs) {
+	const db = getDb();
 	const { id } = args.params;
 
-	const attributes = await db.execute(`
-	  select *, (select json_group_array(value) from known_value where key = attribute.key) as known_values
-		from attribute
-		order by key
-	`);
+	// const attributes = await db.all(sql`
+	//   select *, (select json_group_array(value) from known_value where key = attribute.key) as known_values
+	// 	from attribute
+	// 	order by key
+	// `);
+
+	const attributes = await db.query.attribute.findMany({
+		with: {
+			known_values: true,
+		},
+	});
 
 	const children = id
-		? await db.execute({
-				sql: `select * from row where parent = ? order by timestamp desc limit 50`,
-				args: [id],
-			})
-		: await db.execute(
-				`select * from row where subtype = 'record' order by timestamp desc limit 50`,
-			); // where parent is null
+		? await db
+				.select()
+				.from(schema.row)
+				.where(eq(schema.row.parent, id))
+				.orderBy(desc(schema.row.timestamp))
+				.limit(50)
+		: await db
+				.select()
+				.from(schema.row)
+				.where(eq(schema.row.subtype, 'record'))
+				.orderBy(desc(schema.row.timestamp))
+				.limit(50);
 
 	// TODO: fetch all parents recursively(?)
 	const parent = id
-		? await db.execute({
-				sql: `select * from row where id = ?`,
-				args: [id],
+		? await db.query.row.findFirst({
+				where: eq(schema.row.id, id),
 			})
 		: null;
 
-	if (id && parent?.rows.length === 0) {
+	if (id && !parent) {
 		throw redirect('/');
 	}
 
 	return json({
-		attributes: attributes.rows.map(({ known_values, ...rest }) => {
-			return {
-				...rest,
-				known_values: JSON.parse(known_values),
-			};
-		}),
-		children: children?.rows.map((row) => formatRow(row)),
-		parent: parent ? formatRow(parent.rows[0]) : null,
+		attributes,
+		children: children?.map((row) => formatRow(row)),
+		parent: parent ? formatRow(parent) : null,
 	});
 }
 
 function formatRow(row: any) {
-	const json = row?.json ? JSON.parse(row.json) : null;
+	const json = row?.json;
+	// const json = row?.json ? JSON.parse(row.json) : null;
 
 	const niceJson = {
 		...json,
@@ -106,7 +114,6 @@ function formatRow(row: any) {
 	return {
 		...row,
 		json: niceJson,
-		breadcrumb: row?.breadcrumb ? JSON.parse(row.breadcrumb) : null,
 	};
 }
 
@@ -116,11 +123,18 @@ export default function Index() {
 	return (
 		<div className="font-sans p-4">
 			<h2 className="text-2xl font-bold">Attributes</h2>
+
 			<div className="max-h-[400px] overflow-y-auto whitespace-pre-wrap border rounded shadow p-4 my-4 text-xs">
 				{attributes.map((attribute, index) => (
-					<pre key={index}>{JSON.stringify(attribute)}</pre>
+					<Attribute
+						key={index}
+						name={attribute.key}
+						type={attribute.type}
+						knownValues={attribute.known_values}
+					/>
 				))}
 			</div>
+
 			{parent && (
 				<>
 					<h2 className="text-2xl font-bold">Details</h2>
@@ -132,6 +146,26 @@ export default function Index() {
 				{children?.map((row, index) => (
 					<Row key={index} row={row} />
 				))}
+			</div>
+		</div>
+	);
+}
+
+function Attribute({
+	name,
+	type,
+	knownValues,
+}: { name: string; type: string; knownValues: any[] }) {
+	return (
+		<div className="flex flex-col border shadow p-2 rounded">
+			<div className="flex items-center gap-2">
+				<Badge>{name}</Badge>
+				<Badge>{type}</Badge>
+			</div>
+			<div className="text-xs overflow-hidden line-clamp-1">
+				{knownValues.map((value, index) => {
+					return <div key={index}>{value.value}</div>;
+				})}
 			</div>
 		</div>
 	);
