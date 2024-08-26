@@ -1,42 +1,14 @@
-import type * as OT from '@opentelemetry/otlp-transformer';
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { Link, json, redirect, useLoaderData } from '@remix-run/react';
-import clsx from 'clsx';
+import { json, redirect, useLoaderData } from '@remix-run/react';
 import { desc, eq } from 'drizzle-orm';
-import { Fragment } from 'react/jsx-runtime';
 import { getDb, schema } from '~/.server/db';
-
-function flattenValue(value?: OT.IAnyValue | OT.IKeyValue[] | null): any {
-	if (!value) {
-		return null;
-	} else if (Array.isArray(value)) {
-		return flattenValue({
-			kvlistValue: {
-				values: value,
-			},
-		});
-	} else if (value.stringValue) {
-		return value.stringValue;
-	} else if (value.boolValue) {
-		return value.boolValue ?? false;
-	} else if (value.doubleValue) {
-		return value.doubleValue ?? 0;
-	} else if (value.intValue) {
-		return value.intValue ?? 0;
-	} else if (value.bytesValue) {
-		return value.bytesValue;
-	} else if (value.arrayValue) {
-		return value.arrayValue.values.map((elem) => flattenValue(elem));
-	} else if (value.kvlistValue) {
-		const output: Record<string, any> = {};
-		for (const entry of value.kvlistValue.values) {
-			output[entry.key] = flattenValue(entry.value);
-		}
-		return output;
-	} else {
-		return null;
-	}
-}
+import { Attribute, Row } from '~/components';
+import {
+	ResizableHandle,
+	ResizablePanel,
+	ResizablePanelGroup,
+} from '~/components/ui/resizable';
+import { flattenValue } from '~/utils';
 
 export const meta: MetaFunction = () => {
 	return [
@@ -121,144 +93,39 @@ export default function Index() {
 	const { attributes, children, parent } = useLoaderData<typeof loader>();
 
 	return (
-		<div className="font-sans p-4">
-			<h2 className="text-2xl font-bold">Attributes</h2>
-
-			<div className="max-h-[400px] overflow-y-auto whitespace-pre-wrap border rounded shadow p-4 my-4 text-xs">
-				{attributes.map((attribute, index) => (
-					<Attribute
-						key={index}
-						name={attribute.key}
-						type={attribute.type}
-						knownValues={attribute.known_values}
-					/>
-				))}
-			</div>
-
-			{parent && (
-				<>
-					<h2 className="text-2xl font-bold">Details</h2>
-					<Row row={parent} showParent expanded />
-				</>
-			)}
-			<h2 className="text-2xl font-bold">Children</h2>
-			<div className="flex flex-col gap-2">
-				{children?.map((row, index) => (
-					<Row key={index} row={row} />
-				))}
-			</div>
-		</div>
-	);
-}
-
-function Attribute({
-	name,
-	type,
-	knownValues,
-}: { name: string; type: string; knownValues: any[] }) {
-	return (
-		<div className="flex flex-col border shadow p-2 rounded">
-			<div className="flex items-center gap-2">
-				<Badge>{name}</Badge>
-				<Badge>{type}</Badge>
-			</div>
-			<div className="text-xs overflow-hidden line-clamp-1">
-				{knownValues.map((value, index) => {
-					return <div key={index}>{value.value}</div>;
-				})}
-			</div>
-		</div>
-	);
-}
-
-function Row({
-	row,
-	expanded: expandedDefault,
-	showParent,
-}: { row: any; expanded?: boolean; showParent?: boolean }) {
-	const [expanded, setExpanded] = useState(expandedDefault);
-
-	return (
-		<div className="flex flex-col border shadow p-2 rounded">
-			<div className="flex items-center gap-2">
-				<Breadcrumb breadcrumb={[null, ...row.breadcrumb]} />
-				{/* <PrettyLink to={`/${row.id}`}>{row.id}</PrettyLink> */}
-				<Badge>{row.type}</Badge>
-				<Badge>{row.subtype}</Badge>
-				{row.children_count ? (
-					<Badge>Children: {row.children_count}</Badge>
-				) : null}
-				{row.timestamp && <Badge>{row.timestamp}</Badge>}
-
-				<div className="flex-1" />
-				<button
-					type="button"
-					onClick={() => setExpanded((expanded) => !expanded)}
-					className="text-xs text-blue-700 hover:underline"
-				>
-					{expanded ? 'Show less' : 'Show more'}
-				</button>
-			</div>
-
-			{/* Superceded by breadcrumb? */}
-			{/* {showParent && (
-				<div>
-					Parent:{' '}
-					<PrettyLink to={`/${row.parent ?? ''}`}>
-						{row.parent ?? '(root)'}
-					</PrettyLink>
-				</div>
-			)} */}
-			{expanded ? (
-				<pre className="max-h-[400px] overflow-y-auto whitespace-pre-wrap mt-2 text-xs">
-					{JSON.stringify(row.json, null, 2)}
-				</pre>
-			) : (
-				<div className="text-xs overflow-hidden line-clamp-2">
-					{JSON.stringify(row.json)}
-				</div>
-			)}
-		</div>
-	);
-}
-
-function Breadcrumb({ breadcrumb }: { breadcrumb: string[] }) {
-	return (
-		<div className="flex items-center gap-1">
-			{[...breadcrumb].reverse().map((id, index) => (
-				<Fragment key={id}>
-					<PrettyLink
-						className={clsx(
-							index === 0 && 'font-bold',
-							'truncate max-w-[100px]',
+		<div className="inset-0 absolute">
+			<ResizablePanelGroup direction="horizontal" className="">
+				<ResizablePanel>
+					<div className="p-4 overflow-y-auto overflow-x-hidden h-full">
+						<h2 className="text-xl font-bold mb-4">Attributes</h2>
+						{attributes.map((attribute, index) => (
+							<Attribute
+								key={index}
+								name={attribute.key}
+								type={attribute.type}
+								knownValues={attribute.known_values}
+							/>
+						))}
+					</div>
+				</ResizablePanel>
+				<ResizableHandle />
+				<ResizablePanel>
+					<div className="p-4 overflow-y-auto overflow-x-hidden h-full">
+						{parent && (
+							<>
+								<h2 className="text-2xl font-bold">Details</h2>
+								<Row row={parent} showParent expanded />
+							</>
 						)}
-						to={`/${id}`}
-					>
-						{id ?? '(root)'}
-					</PrettyLink>
-					{index < breadcrumb.length - 1 && ' > '}
-				</Fragment>
-			))}
+						<h2 className="text-2xl font-bold">Children</h2>
+						<div className="flex flex-col gap-2">
+							{children?.map((row, index) => (
+								<Row key={index} row={row} />
+							))}
+						</div>
+					</div>
+				</ResizablePanel>
+			</ResizablePanelGroup>
 		</div>
-	);
-}
-
-function PrettyLink({
-	to,
-	children,
-	className,
-}: { to: string; children: React.ReactNode; className?: string }) {
-	return (
-		<Link className={clsx('text-blue-700 hover:underline', className)} to={to}>
-			{children}
-		</Link>
-	);
-}
-
-function Badge({ children }: { children: React.ReactNode }) {
-	return (
-		<span className="bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-md">
-			{children}
-		</span>
 	);
 }

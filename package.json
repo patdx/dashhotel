@@ -23,13 +23,18 @@
 		"@remix-run/react": "2.11.2",
 		"@remix-run/serve": "2.11.2",
 		"@types/lodash-es": "4.17.12",
+		"class-variance-authority": "0.7.0",
 		"clsx": "2.1.1",
 		"drizzle-orm": "0.33.0",
 		"hono": "4.5.9",
 		"isbot": "5.1.17",
 		"lodash-es": "4.17.21",
+		"lucide-react": "0.436.0",
 		"react": "19.0.0-rc-8269d55d-20240802",
-		"react-dom": "19.0.0-rc-8269d55d-20240802"
+		"react-dom": "19.0.0-rc-8269d55d-20240802",
+		"react-resizable-panels": "2.1.1",
+		"tailwind-merge": "2.5.2",
+		"tailwindcss-animate": "1.0.7"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
