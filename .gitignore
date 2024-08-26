@@ -6,4 +6,4 @@ node_modules
 .dev.vars
 
 .wrangler
-.sqlite
+db.sqlite

@@ -16,10 +16,3 @@ Dashhotel is a minimalist log receiver and log browsing dashboard compatible wit
 4. Run the application
 5. Access the dashboard to browse your logs
 
-## Contributing
-
-Contributions are welcome. Please submit pull requests or open issues on the GitHub repository.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
