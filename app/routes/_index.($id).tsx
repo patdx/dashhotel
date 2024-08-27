@@ -1,8 +1,10 @@
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect, useLoaderData } from '@remix-run/react';
 import { desc, eq } from 'drizzle-orm';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+import { Fragment } from 'react/jsx-runtime';
 import { getDb, schema } from '~/.server/db';
-import { Attribute, Row } from '~/components';
+import { Attribute, PrettyLink, Row } from '~/components';
 import {
 	ResizableHandle,
 	ResizablePanel,
@@ -51,19 +53,27 @@ export async function loader(args: LoaderFunctionArgs) {
 				.limit(50);
 
 	// TODO: fetch all parents recursively(?)
-	const parent = id
+	const details = id
 		? await db.query.row.findFirst({
 				where: eq(schema.row.id, id),
 			})
 		: null;
 
-	if (id && !parent) {
+	// Fetch the parent if details exist
+	const parent = details?.parent
+		? await db.query.row.findFirst({
+				where: eq(schema.row.id, details.parent),
+			})
+		: null;
+
+	if (id && !details) {
 		throw redirect('/');
 	}
 
 	return json({
 		attributes,
 		children: children?.map((row) => formatRow(row)),
+		details: details ? formatRow(details) : null,
 		parent: parent ? formatRow(parent) : null,
 	});
 }
@@ -90,13 +100,54 @@ function formatRow(row: any) {
 }
 
 export default function Index() {
-	const { attributes, children, parent } = useLoaderData<typeof loader>();
+	const { attributes, children, details, parent } =
+		useLoaderData<typeof loader>();
+
+	const AnimatePresence = Fragment;
 
 	return (
-		<div className="inset-0 absolute">
-			<ResizablePanelGroup direction="horizontal" className="">
-				<ResizablePanel>
-					<div className="p-4 overflow-y-auto overflow-x-hidden h-full">
+		<div>
+			<ResizablePanelGroup className="inset-0 absolute" direction="horizontal">
+				<ResizablePanel defaultSize={67}>
+					<OverlayScrollbarsComponent defer className="h-full w-full p-4">
+						<h2 className="text-2xl font-bold mb-2">
+							<PrettyLink to="/">Home</PrettyLink>
+						</h2>
+						{/* <motion.div> */}
+						<h2 className="text-2xl font-bold mb-2">Parent</h2>
+						<div className="h-[100px]">
+							<AnimatePresence>
+								{
+									parent ? <Row key={parent.id} row={parent} /> : null
+									// (
+									// 	<div className="text-gray-500 italic">No parent</div>
+									// )
+								}
+							</AnimatePresence>
+						</div>
+						<h2 className="text-2xl font-bold mt-4 mb-2">Details</h2>
+						<div className="h-[300px] relative">
+							<div className="absolute inset-0 overflow-y-auto">
+								{details && <Row key={details.id} row={details} expanded />}
+							</div>
+						</div>
+						<h2 className="text-2xl font-bold mt-4 mb-2">Children</h2>
+						<div className="space-y-2 w-full">
+							<AnimatePresence>
+								{children.map((row, index) => (
+									<Row key={row.id} row={row} />
+								))}
+							</AnimatePresence>
+						</div>
+						{/* {children.length === 0 && (
+							<div className="text-gray-500 italic">No children</div>
+						)} */}
+						{/* </motion.div> */}
+					</OverlayScrollbarsComponent>
+				</ResizablePanel>
+				<ResizableHandle withHandle />
+				<ResizablePanel defaultSize={33}>
+					<OverlayScrollbarsComponent className="p-4 w-full h-full">
 						<h2 className="text-xl font-bold mb-4">Attributes</h2>
 						{attributes.map((attribute, index) => (
 							<Attribute
@@ -106,24 +157,7 @@ export default function Index() {
 								knownValues={attribute.known_values}
 							/>
 						))}
-					</div>
-				</ResizablePanel>
-				<ResizableHandle />
-				<ResizablePanel>
-					<div className="p-4 overflow-y-auto overflow-x-hidden h-full">
-						{parent && (
-							<>
-								<h2 className="text-2xl font-bold">Details</h2>
-								<Row row={parent} showParent expanded />
-							</>
-						)}
-						<h2 className="text-2xl font-bold">Children</h2>
-						<div className="flex flex-col gap-2">
-							{children?.map((row, index) => (
-								<Row key={index} row={row} />
-							))}
-						</div>
-					</div>
+					</OverlayScrollbarsComponent>
 				</ResizablePanel>
 			</ResizablePanelGroup>
 		</div>

@@ -1,6 +1,8 @@
 import { Link } from '@remix-run/react';
 import clsx from 'clsx';
+import { motion } from 'framer-motion';
 import { Fragment } from 'react';
+import { useState } from 'react';
 
 export function Badge({ children }: { children: React.ReactNode }) {
 	return (
@@ -33,21 +35,37 @@ export function Attribute({
 export function Row({
 	row,
 	expanded: expandedDefault,
-	showParent,
-}: { row: any; expanded?: boolean; showParent?: boolean }) {
+	parent,
+}: { row: any; expanded?: boolean; parent?: any }) {
 	const [expanded, setExpanded] = useState(expandedDefault);
+	// expanded = false;
 
 	return (
-		<div className="flex flex-col border shadow p-2 rounded">
+		<motion.div
+			className="flex flex-col border shadow p-2 rounded min-w-0 w-full group"
+			layout="position"
+			layoutId={row.id}
+			initial={{
+				opacity: 0,
+			}}
+			animate={{ opacity: 1 }}
+			exit={{ opacity: 0 }}
+		>
 			<div className="flex items-center gap-2">
-				<Breadcrumb breadcrumb={[null, ...row.breadcrumb]} />
-				{/* <PrettyLink to={`/${row.id}`}>{row.id}</PrettyLink> */}
+				<PrettyLink to={`/${row.id}`} className="font-bold truncate">
+					{row.id}
+				</PrettyLink>
 				<Badge>{row.type}</Badge>
 				<Badge>{row.subtype}</Badge>
 				{row.children_count ? (
 					<Badge>Children: {row.children_count}</Badge>
 				) : null}
 				{row.timestamp && <Badge>{row.timestamp}</Badge>}
+				{parent && (
+					<span className="text-xs text-gray-500">
+						Parent: <PrettyLink to={`/${parent.id}`}>{parent.id}</PrettyLink>
+					</span>
+				)}
 
 				<div className="flex-1" />
 				<button
@@ -73,11 +91,15 @@ export function Row({
 					{JSON.stringify(row.json, null, 2)}
 				</pre>
 			) : (
-				<div className="text-xs overflow-hidden line-clamp-2">
-					{JSON.stringify(row.json)}
-				</div>
+				<button
+					type="button"
+					className="text-xs overflow-hidden line-clamp-2 group-hover:underline cursor-pointer text-left"
+					onClick={() => setExpanded(true)}
+				>
+					<div>{JSON.stringify(row.json)}</div>
+				</button>
 			)}
-		</div>
+		</motion.div>
 	);
 }
 

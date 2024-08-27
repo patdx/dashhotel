@@ -18,7 +18,7 @@ export async function handleLogRequest(data: OT.IExportLogsServiceRequest) {
 			type: 'log',
 			subtype: 'resource',
 			timestamp: new Date().toISOString(),
-			json: JSON.stringify(omit(resourceLog, 'scopeLogs')),
+			json: omit(resourceLog, 'scopeLogs'),
 		});
 
 		await registerKeyValues(
