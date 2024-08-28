@@ -1,7 +1,10 @@
 import { vitePlugin as remix } from '@remix-run/dev';
 import AutoImport from 'unplugin-auto-import/vite';
 import { defineConfig } from 'vite';
+import babel from 'vite-plugin-babel';
 import tsconfigPaths from 'vite-tsconfig-paths';
+
+const ReactCompilerConfig = {};
 
 export default defineConfig({
 	plugins: [
@@ -18,6 +21,13 @@ export default defineConfig({
 				v3_throwAbortReason: true,
 				unstable_singleFetch: true,
 				unstable_lazyRouteDiscovery: true,
+			},
+		}),
+		babel({
+			filter: /\.[jt]sx?$/,
+			babelConfig: {
+				presets: ['@babel/preset-typescript'], // if you use TypeScript
+				plugins: [['babel-plugin-react-compiler', ReactCompilerConfig]],
 			},
 		}),
 		tsconfigPaths(),
